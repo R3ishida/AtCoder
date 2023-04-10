@@ -1,36 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int N, A[100009];
+
 int main(){
-  int Z[5][3];
-  for(int y=1; y<=3; y++){
-    for(int x=1; x<=5; x++){
-      cin >> Z[x][y];
+  cin >> N;
+  for(int i=1; i<=N; i++) cin >> A[i];
+
+  int B[100009];
+  copy(A+1, A+N+1, B);
+  sort(B+1, B+N+1);
+
+  int C[100009];
+  int index = 1;
+  for(int i = 1; i <= N; i++){
+    if(C[index-1] != B[i]){
+      C[index] = B[i];
+      index++;
+    }
+  }// Cの1~index-1までに値が入っている
+  for(int i=1; i<=N; i++){
+    int pos = lower_bound(C+1, C+index, A[i])-C;
+    if(i==1){
+      cout << pos;
+    } else {
+      cout << " " << pos;
     }
   }
-  
-  // yを固定してXの累積和をとる
-  for(int y=1; y<=3; y++){
-    Z[0][y] = 0; 
-    for(int x=1; x<=5; x++){
-      Z[x][y] += Z[x-1][y];
-    }
-  }
-  
-  // xを固定してyの累積和をとる
-  for(int x=1; x<=5; x++){
-    Z[x][0] = 0; 
-    for(int y=1; y<=3; y++){
-      Z[x][y] += Z[x][y-1];
-    }
-  }
-  
-  for(int y=1; y<=3; y++){
-    for(int x=1; x<=5; x++){
-      cout << Z[x][y] << " ";
-    }
-    cout << endl;
-  }
-  
-  cout << "unko" << endl;
+  cout << endl;
 }
